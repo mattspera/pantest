@@ -26,15 +26,24 @@ class PanoramaTestCases(object):
         for dg in device_groups['entry']:
             if 'devices' in dg:
                 shared_policy_sync_dict[dg['@name']] = {}
-                for dg_dev in dg['devices']['entry']:
-                    if dg_dev['connected'] == 'yes':
-                        shared_policy_sync_dict[dg['@name']].update(
+                if isinstance(dg['devices']['entry'], dict): # One device within device group - dict
+                    shared_policy_sync_dict[dg['@name']].update(
                             {
-                                dg_dev['hostname'] : {
-                                    dg_dev['vsys']['entry']['@name'] : dg_dev['vsys']['entry']['shared-policy-status']
+                               dg['devices']['entry']['hostname'] : {
+                                   dg['devices']['entry']['vsys']['entry']['@name'] :dg['devices']['entry']['vsys']['entry']['shared-policy-status']
                                 }
                             }
                         )
+                else: # many devices within device group - list
+                    for dg_dev in dg['devices']['entry']:
+                        if dg_dev['connected'] == 'yes':
+                            shared_policy_sync_dict[dg['@name']].update(
+                                {
+                                    dg_dev['hostname'] : {
+                                        dg_dev['vsys']['entry']['@name'] : dg_dev['vsys']['entry']['shared-policy-status']
+                                    }
+                                }
+                            )
 
         # If test is a string (will be if input variable sourced from Ansible module), convert to a dict
         if isinstance(test, str):
@@ -65,12 +74,19 @@ class PanoramaTestCases(object):
         for t in templates['entry']:
             if 'devices' in t:
                 template_sync_dict[t['@name']] = {}
-                for t_dev in t['devices']['entry']:
+                if isinstance(t['devices']['entry'], dict): # one device within template - dict
                     template_sync_dict[t['@name']].update(
                         {
-                            t_dev['serial'] : t_dev['template-status']
+                            t['devices']['entry']['serial'] :t['devices']['entry']['template-status']
                         }
                     )
+                else: # many devices within template - list
+                    for t_dev in t['devices']['entry']:
+                        template_sync_dict[t['@name']].update(
+                            {
+                                t_dev['serial'] : t_dev['template-status']
+                            }
+                        )
 
         # If test is a string (will be if input variable sourced from Ansible module), convert to a dict
         if isinstance(test, str):
