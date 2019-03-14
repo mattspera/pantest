@@ -30,7 +30,7 @@ class PanoramaTestCases(object):
                     shared_policy_sync_dict[dg['@name']].update(
                             {
                                dg['devices']['entry']['hostname'] : {
-                                   dg['devices']['entry']['vsys']['entry']['@name'] :dg['devices']['entry']['vsys']['entry']['shared-policy-status']
+                                   dg['devices']['entry']['vsys']['entry']['@name'] : dg['devices']['entry']['vsys']['entry']['shared-policy-status']
                                 }
                             }
                         )
