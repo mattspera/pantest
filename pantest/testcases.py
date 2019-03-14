@@ -3,7 +3,7 @@ import ast
 import time
 
 from pantest.utils import *
-from pantest.interface import *
+from pantest.interface import PanApi, PanCli, PanHybrid
 
 '''
 Panorama-ONLY Tests
