@@ -27,7 +27,7 @@ python setup.py sdist bdist_wheel
 pip install dist/pantest-0.0.1-py3-none-any.whl
 ```
 
-1. **Import pantest into script and call available methods**
+2. **Import pantest into script and call available methods**
 
 Sample script:
 
