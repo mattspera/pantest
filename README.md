@@ -15,7 +15,7 @@ A Palo Alto Networks test-suite Python library.
 
 ## Overview
 
-Todo...
+This Python library in development facilitates the automation of technical verification testing of Palo Alto Networks devices. The library contains a series of Python methods that each test a component of device configuration or state. Each test method takes a baseline value as an argument and compares this value to the current configuration or state value on the device. Each method will return a test result, including any differences found in the comparative values.
 
 ## How to Use
 
@@ -70,7 +70,7 @@ def main():
 
     fw_tester = FirewallTestCases(device, conn)
 
-    test_output = fw_tester.t_panorama_connected('yes')
+    test_output = fw_tester.t_panorama_connected('yes') # 'yes' is the baseline tvt value
 
     print(test_output) # test_output is a dictionary
 
