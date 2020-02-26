@@ -10,8 +10,8 @@ Panorama-ONLY Tests
 '''
 class PanoramaTestCases(object):
 
-    def __init__(self, pandevice_obj):
-        self.api = PanApi(pandevice_obj)
+    def __init__(self, device_info):
+        self.api = PanApi(device_info)
 
     def t_shared_policy_sync(self, test):
         test_name = 't_shared_policy_sync'
@@ -365,10 +365,10 @@ Firewall-ONly Tests
 '''
 class FirewallTestCases(object):
 
-    def __init__(self, pandevice_obj, netmiko_obj):
-        self.api = PanApi(pandevice_obj)
-        self.cli = PanCli(netmiko_obj)
-        self.api_cli = PanHybrid(pandevice_obj, netmiko_obj)
+    def __init__(self, device_info):
+        self.api = PanApi(device_info)
+        self.cli = PanCli(device_info)
+        self.api_cli = PanHybrid(device_info)
 
     def t_system_env_alarms_fw(self, test):
         test_name = 't_system_env_alarms_fw'
@@ -571,9 +571,9 @@ General Tests - Panorama & Firewall
 '''
 class GeneralTestCases(object):
 
-    def __init__(self, pandevice_obj, netmiko_obj):
-        self.api = PanApi(pandevice_obj)
-        self.cli = PanCli(netmiko_obj)                  
+    def __init__(self, device_info):
+        self.api = PanApi(device_info)
+        self.cli = PanCli(device_info)                  
 
     def t_system_version(self, test):
         test_name = 't_system_version'

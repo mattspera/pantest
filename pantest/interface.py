@@ -9,7 +9,16 @@ from netmiko import NetMikoTimeoutException, NetMikoAuthenticationException
 
 class PanApi(object):
 
-    def __init__(self, device):
+    def __init__(self, device_info):
+        try:
+            device = PanDevice.create_from_device(
+                device_info['ip'],
+                device_info['username'],
+                device_info['password']
+            )
+        except PanDeviceError as e:
+            print(e.message)
+
         self.dev = device
 
     def get_system_info(self):
@@ -17,7 +26,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True) # xml=True return the xml string rather than element tree
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -26,7 +35,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -35,7 +44,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -44,7 +53,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -53,7 +62,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -62,7 +71,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']   
 
@@ -71,7 +80,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -80,7 +89,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -89,7 +98,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -98,7 +107,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -107,7 +116,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -116,7 +125,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -125,7 +134,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True, cmd_xml=False) # cmd_xml=False allows xml formatted req
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -134,7 +143,7 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
@@ -143,14 +152,24 @@ class PanApi(object):
         logging.info(req)
 
         resp = self.dev.op(req, xml=True)
-        logging.info(resp + '\n')
+        logging.info(resp + b'\n')
 
         return xmltodict.parse(resp)['response']['result']
 
 class PanCli(object):
 
-    def __init__(self, ssh_connection_handler):
+    def __init__(self, device_info):
+        device_info['device_type'] = 'paloalto_panos' 
+
+        try:
+            ssh_connection_handler = ConnectHandler(**device_info)
+        except (NetMikoTimeoutException, NetMikoAuthenticationException) as e:
+            print(e.message)
+
         self.conn = ssh_connection_handler
+
+    def __del__(self):
+        self.conn.disconnect()
 
     def run_cmd(self, cmd, expect_string=''):
         logging.info(cmd)
@@ -173,9 +192,9 @@ class PanCli(object):
 
 class PanHybrid(object):
 
-    def __init__(self, device, ssh_connection_handler):
-        self.api = PanApi(device)
-        self.cli = PanCli(ssh_connection_handler)
+    def __init__(self, device_info):
+        self.api = PanApi(device_info)
+        self.cli = PanCli(device_info)
 
     def get_connectivity(self):
         nexthops = []
@@ -212,7 +231,7 @@ class PanHybrid(object):
         for nexthop, source in list(zip(nexthops, nexthop_interface_ips)):
             if source:
                 cmd = 'ping source {} count 2 host {}'.format(source, nexthop)
-                raw_text_ping = self.cli.run_cmd(cmd, expect_string=r'(unknown)|(syntax)|(bind)|(\d{1,3})%').string('ping\n')
+                raw_text_ping = self.cli.run_cmd(cmd, expect_string=r'(unknown)|(syntax)|(bind)|(\d{1,3})%').strip('ping\n')
                 re_packet_loss = re.search(r'(\d{1,3})%', raw_text_ping)
 
                 if re_packet_loss:
