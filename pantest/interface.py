@@ -2,6 +2,10 @@ import re
 import logging
 
 import xmltodict
+from pandevice.base import PanDevice
+from pandevice.errors import PanDeviceError
+from netmiko import ConnectHandler
+from netmiko import NetMikoTimeoutException, NetMikoAuthenticationException
 
 class PanApi(object):
 
@@ -196,9 +200,9 @@ class PanHybrid(object):
 
         nexthop_interface_ips = []
 
-        for nextop_interface in nexthop_interfaces:
+        for nexthop_interface in nexthop_interfaces:
             for int_name, int_ip in interface_ip_map_dict.items():
-                if nextop_interface == int_name:
+                if nexthop_interface == int_name:
                     nexthop_interface = int_ip
                     nexthop_interface_ips.append(nexthop_interface[:-3])
                     break
