@@ -23,13 +23,13 @@ This Python library in development facilitates the automation of technical verif
 
 ```
 pip install setuptools wheel
-python setup.py sdist bdist_wheel
+python setup.py bdist_wheel
 pip install dist/pantest-0.0.1-py3-none-any.whl
 ```
 
 ### 2. Import pantest into script and call available methods
 
-**Sample script:**
+**Sample Script:**
 
 ```python
 import argparse
