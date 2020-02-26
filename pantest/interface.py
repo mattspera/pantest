@@ -206,7 +206,9 @@ class PanHybrid(object):
 
         for entry in self.api.get_route_table()['entry']:
             if (
-                entry['nexthop'] != '0.0.0.0' and
+                'A' in entry['flags'] and
+                not 'C' in entry['flags'] and
+                not 'H' in entry['flags'] and
                 entry['nexthop'] != 'discard' and
                 not entry['nexthop'] in nexthops
             ):
