@@ -1,4 +1,5 @@
 import re
+import sys
 import logging
 
 import xmltodict
@@ -18,6 +19,7 @@ class PanApi(object):
             )
         except PanDeviceError as e:
             print(e.message)
+            sys.exit()
 
         self.dev = device
 
@@ -164,12 +166,14 @@ class PanCli(object):
         try:
             ssh_connection_handler = ConnectHandler(**device_info)
         except (NetMikoTimeoutException, NetMikoAuthenticationException) as e:
-            print(e.message)
+            print(e)
+            sys.exit()
 
         self.conn = ssh_connection_handler
 
     def __del__(self):
-        self.conn.disconnect()
+        if hasattr(self, 'conn'):
+            self.conn.disconnect()
 
     def run_cmd(self, cmd, expect_string=''):
         logging.info(cmd)
