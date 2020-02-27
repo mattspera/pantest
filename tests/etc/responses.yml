@@ -1,0 +1,9 @@
+---
+
+hostname: PA-VM
+test_route_dest: 172.16.0.0/29
+host_only_route_int: ethernet1/2
+ntp_status: LOCAL
+interface_mac: 08:00:27:f7:e0:2b
+config_mode_prompt: admin@PA-VM#
+packet_loss: 100%
