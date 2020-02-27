@@ -33,9 +33,7 @@ pip install dist/pantest-0.0.1-py3-none-any.whl
 
 ```python
 import argparse
-import logging
 import json
-from datetime import datetime
 from getpass import getpass
 
 from pantest.testcases import FirewallTestCases
@@ -51,12 +49,6 @@ def main():
     parser.add_argument('--user', help='username for auth to Palo Alto device', required=True)
     args = parser.parse_args()
 
-    # Lowering paramiko logging level to prevent unnecessary logging in main log file
-    logging.getLogger('paramiko').setLevel(logging.WARNING)
-
-    dt = datetime.now().strftime(r'%y%m%d_%H%M')
-    logging.basicConfig(filename='{}_{}_tvt.log'.format(args.device, dt), level=logging.INFO)
-
     device_info = {
         'ip' : args.device,
         'username' : args.user,
@@ -69,7 +61,7 @@ def main():
 
     # Test data
 
-    bl_interfaces_up = ['ethernet1/1', 'ethernet1/2'] # 'ethernet1/1 and 'ethernet1/2' were interfaces up in baseline tvt
+    bl_interfaces_up = ['ethernet1/1', 'ethernet1/2', 'ethernet1/3']
 
     bl_connectivity = {
         "10.0.3.15": "100%",
