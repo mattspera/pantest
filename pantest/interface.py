@@ -192,7 +192,9 @@ class PanCli(object):
         return res
 
     def enter_config_mode(self):
-        self.conn.config_mode()
+        res = self.conn.config_mode()
+
+        return res
 
 class PanHybrid(object):
 
