@@ -1,0 +1,26 @@
+---
+# Test config values
+hostname: PA-VM
+sys_version: '9.1.0'
+not_sys_version: '8.1.10'
+test_route_dest: 172.16.0.0/29
+host_only_route_int: ethernet1/2
+ntp_status: LOCAL
+not_ntp_status: '1.1.1.1'
+panorama_connected_status: 'no'
+not_panorama_connected_status: 'yes'
+ha_enabled_status: 'yes'
+not_ha_enabled_status: 'no'
+interface_mac: 08:00:27:f7:e0:2b
+config_mode_prompt: '[edit]'
+packet_loss: 100%
+config_set: 'etc/config_set.txt'
+not_config_set: 'etc/not_config_set.txt'
+added_config: ['set deviceconfig system timezone US/Pacific']
+removed_config: ['set deviceconfig system timezone Australia/Melbourne']
+ha_peer_up_status: down
+not_ha_peer_up_status: up
+ha1_status: down
+ha2_status: down
+ha_config_sync_status: unknown
+not_ha_config_sync_status: synchronized
