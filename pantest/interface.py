@@ -173,7 +173,7 @@ class PanCli(object):
 
     def __del__(self):
         if hasattr(self, 'conn'):
-            self.conn.disconnect()
+            self.conn.cleanup()
 
     def run_cmd(self, cmd, expect_string=''):
         logging.info(cmd)
