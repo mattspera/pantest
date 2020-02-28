@@ -312,8 +312,8 @@ class PanoramaTestCases(object):
             }
             return result
 
-    def t_ha_config_synched_pano(self, test):
-        test_name = 't_ha_config_synched_pano'
+    def t_ha_config_synced_pano(self, test):
+        test_name = 't_ha_config_synced_pano'
         logging.info('Test case: {}'.format(test_name))
 
         result = {}
@@ -449,7 +449,7 @@ class FirewallTestCases(object):
         output = self.api.get_ha_status()
         info = output['group']['peer-info']
 
-        if info['conn-ha2']['conn-status'] == test and info['conn-ha1']['conn-status'] == test:
+        if info['conn-status'] == test:
             result['result'] = True
             return result
         else:
@@ -493,8 +493,8 @@ class FirewallTestCases(object):
             }
             return result
 
-    def t_ha_config_synched(self, test):
-        test_name = 't_ha_config_synched'
+    def t_ha_config_synced(self, test):
+        test_name = 't_ha_config_synced'
         logging.info('Test case: {}'.format(test_name))
 
         result = {}
@@ -549,7 +549,7 @@ class FirewallTestCases(object):
         output = self.cli.run_cmd('show logging-status')
         test = find_seq_number('traffic', output)
 
-        # wait 15 seconda for traffic log to be forwarded
+        # wait 15 seconds for traffic log to be forwarded
         time.sleep(15)
 
         output = self.cli.run_cmd('show logging-status')
@@ -635,8 +635,8 @@ class GeneralTestCases(object):
             result['result'] = False
             return result
 
-    def t_ntp_synched(self, test):
-        test_name = 't_ntp_synched'
+    def t_ntp_synced(self, test):
+        test_name = 't_ntp_synced'
         logging.info('Test case: {}'.format(test_name))
 
         result = {}
@@ -644,16 +644,13 @@ class GeneralTestCases(object):
 
         output = self.api.get_ntp()
 
-        ntp_status_1 = output['ntp-server-1']['status']
-        ntp_status_2 = output['ntp-server-2']['status']
-
-        if ntp_status_1 == test or ntp_status_2 == test:
+        if output['synched'] == test:
             result['result'] = True
             return result
         else:
             result['result'] = False
             result['info'] = {
-                'ntp-server-1-status' : ntp_status_1,
-                'ntp-server-2-status' : ntp_status_2
+                'current-ntp-sync' : output['synched'],
+                'baseline-ntp-sync' : test
             }
             return result
