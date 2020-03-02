@@ -35,7 +35,14 @@ class TestFirewallTestCases(unittest.TestCase):
         pass
 
     def test_t_connectivity(self):
-        pass
+        output_1 = self.fw_tester.t_connectivity(test_vars['nexthop_pings'])
+        output_2 = self.fw_tester.t_connectivity(test_vars['not_nexthop_pings'])
+        self.assertTrue(output_1['result'])
+        self.assertFalse(output_2['result'])
+        self.assertEqual(test_vars['removed_nexthop'], next(iter(output_2['info']['removed'])))
+        self.assertIn(test_vars['changed_nexthop'], output_2['info']['changed [baseline, tvt]'])
+        self.assertEqual(test_vars['packet_loss'], output_2['info']['changed [baseline, tvt]'][test_vars['changed_nexthop']][1])
+        self.assertEqual(test_vars['not_packet_loss'], output_2['info']['changed [baseline, tvt]'][test_vars['changed_nexthop']][0])
 
     def test_t_panorama_connected(self):
         pass
@@ -59,7 +66,11 @@ class TestFirewallTestCases(unittest.TestCase):
         self.assertEqual(test_vars['ha_config_sync_status'], output_2['info']['ha-config-sync-status'])
 
     def test_t_interfaces_up(self):
-        pass
+        output_1 = self.fw_tester.t_interfaces_up(test_vars['interfaces_up'])
+        output_2 = self.fw_tester.t_interfaces_up(test_vars['not_interfaces_up'])
+        self.assertTrue(output_1['result'])
+        self.assertFalse(output_2['result'])
+        self.assertEqual(output_2['info']['interfaces-down'][0], test_vars['not_interfaces_up'][2])
 
     def test_t_traffic_log_forward(self):
         pass

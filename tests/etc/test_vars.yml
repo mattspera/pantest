@@ -14,6 +14,7 @@ not_ha_enabled_status: 'no'
 interface_mac: 08:00:27:f7:e0:2b
 config_mode_prompt: '[edit]'
 packet_loss: 100%
+not_packet_loss: '0%'
 config_set: 'etc/config_set.txt'
 not_config_set: 'etc/not_config_set.txt'
 added_config: ['set deviceconfig system timezone US/Pacific']
@@ -24,3 +25,16 @@ ha1_status: down
 ha2_status: down
 ha_config_sync_status: unknown
 not_ha_config_sync_status: synchronized
+interfaces_up: ['ethernet1/1', 'ethernet1/2']
+not_interfaces_up: ['ethernet1/1', 'ethernet1/2', 'ethernet1/3']
+nexthop_pings: {
+  '10.0.3.2': '0%',
+  '192.168.56.2': 100%
+}
+not_nexthop_pings: {
+  '10.0.3.2': '0%',
+  '192.168.56.2': 0%,
+  '172.20.0.50' : '0%'
+}
+removed_nexthop: '172.20.0.50'
+changed_nexthop: '192.168.56.2'

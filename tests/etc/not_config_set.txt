@@ -25,9 +25,11 @@ set deviceconfig high-availability enabled yes
 set network interface ethernet ethernet1/2 layer3 ndp-proxy enabled no
 set network interface ethernet ethernet1/2 layer3 ip 192.168.56.10/24 
 set network interface ethernet ethernet1/2 layer3 lldp enable no
+set network interface ethernet ethernet1/2 link-state auto
 set network interface ethernet ethernet1/1 layer3 ndp-proxy enabled no
 set network interface ethernet ethernet1/1 layer3 lldp enable no
 set network interface ethernet ethernet1/1 layer3 dhcp-client 
+set network interface ethernet ethernet1/1 link-state auto
 set network interface ethernet ethernet1/3 link-state down
 set network interface ethernet ethernet1/3 ha 
 set network profiles monitor-profile default interval 3
