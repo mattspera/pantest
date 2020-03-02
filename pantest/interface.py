@@ -206,24 +206,30 @@ class PanHybrid(object):
         nexthops = []
         nexthop_interfaces = []
 
-        for entry in self.api.get_route_table()['entry']:
-            if (
-                'A' in entry['flags'] and
-                not 'C' in entry['flags'] and
-                not 'H' in entry['flags'] and
-                entry['nexthop'] != 'discard' and
-                not entry['nexthop'] in nexthops
-            ):
-                nexthops.append(entry['nexthop'])
-                nexthop_interfaces.append(entry['interface'])
+        output = self.api.get_route_table()
+
+        if 'entry' in output:
+            for entry in output['entry']:
+                if (
+                    'A' in entry['flags'] and
+                    not 'C' in entry['flags'] and
+                    not 'H' in entry['flags'] and
+                    entry['nexthop'] != 'discard' and
+                    not entry['nexthop'] in nexthops
+                ):
+                    nexthops.append(entry['nexthop'])
+                    nexthop_interfaces.append(entry['interface'])
 
         interface_ip_map_dict = {}
 
-        for interface in self.api.get_route_interface()['interface']:
-            if 'address' in interface:
-                interface_ip_map_dict[interface['name']] = interface['address']
-            else:
-                interface_ip_map_dict[interface['name']] = ''
+        output = self.api.get_route_interface()
+
+        if 'interface' in output:
+            for interface in output['interface']:
+                if 'address' in interface:
+                    interface_ip_map_dict[interface['name']] = interface['address']
+                else:
+                    interface_ip_map_dict[interface['name']] = ''
 
         nexthop_interface_ips = []
 
