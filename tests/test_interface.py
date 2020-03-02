@@ -57,8 +57,9 @@ class TestPanApi(unittest.TestCase):
 
 class TestPanCli(unittest.TestCase):
 
-    def setUp(self):
-        self.cli = PanCli(device_info)
+    @classmethod
+    def setUpClass(cls):
+        cls.cli = PanCli(device_info)
 
     def test_run_cmd(self):
         output = self.cli.run_cmd('show admins')
@@ -66,10 +67,13 @@ class TestPanCli(unittest.TestCase):
 
     def test_enter_config_mode(self):
         output = self.cli.enter_config_mode()
+        self.cli.exit_config_mode()
         self.assertIn(test_vars['config_mode_prompt'], output)
 
-    def tearDown(self):
-        del self.cli
+    def test_exit_config_mode(self):
+        self.cli.enter_config_mode()
+        output = self.cli.exit_config_mode()
+        self.assertIn(test_vars['op_mode_prompt'], output)
 
 class TestPanHybrid(unittest.TestCase):
 

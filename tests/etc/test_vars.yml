@@ -13,6 +13,7 @@ ha_enabled_status: 'yes'
 not_ha_enabled_status: 'no'
 interface_mac: 08:00:27:f7:e0:2b
 config_mode_prompt: '[edit]'
+op_mode_prompt: '>'
 packet_loss: 100%
 not_packet_loss: '0%'
 config_set: 'etc/config_set.txt'
