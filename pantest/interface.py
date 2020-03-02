@@ -173,7 +173,7 @@ class PanCli(object):
 
     def __del__(self):
         if hasattr(self, 'conn'):
-            self.conn.cleanup()
+            self.conn.disconnect()
 
     def run_cmd(self, cmd, expect_string=''):
         logging.info(cmd)
@@ -193,6 +193,11 @@ class PanCli(object):
 
     def enter_config_mode(self):
         res = self.conn.config_mode()
+
+        return res
+
+    def exit_config_mode(self):
+        res = self.conn.exit_config_mode()
 
         return res
 

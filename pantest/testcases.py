@@ -606,6 +606,7 @@ class GeneralTestCases(object):
         self.cli.enter_config_mode()
         running_config_setcmds = self.cli.run_cmd_show('show')
         running_config_setcmds_list = running_config_setcmds.splitlines()
+        self.cli.exit_config_mode()
 
         output = compare_list(test, running_config_setcmds_list)
 
