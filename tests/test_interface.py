@@ -83,7 +83,7 @@ class TestPanHybrid(unittest.TestCase):
 
     def test_get_connectivity(self):
         output = self.api_cli.get_connectivity()
-        self.assertEqual(test_vars['packet_loss'], output['192.168.56.2'])
+        self.assertEqual(test_vars['packet_loss'], output[test_vars['changed_nexthop']])
 
 if __name__ == "__main__":
     unittest.main()
