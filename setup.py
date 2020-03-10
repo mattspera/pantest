@@ -8,10 +8,12 @@ setuptools.setup(
     author_email='speramatthew@gmail.com',
     packages=setuptools.find_packages(),
     install_requires=[
-        'xmltodict'
+        'xmltodict',
+        'pandevice',
+        'netmiko'
     ],
     classifiers=[
-        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
 )
