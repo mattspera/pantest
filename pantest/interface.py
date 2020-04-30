@@ -140,24 +140,6 @@ class PanApi(object):
 
         return xmltodict.parse(resp)['response']['result']
 
-    def get_running_security_policy(self, vsys):
-        req = 'show running security-policy'
-        logging.info(req)
-
-        resp = self.dev.op(req, xml=True)
-        logging.info(resp + b'\n')
-
-        return xmltodict.parse(resp)['response']['result']
-
-    def get_running_nat_policy(self, vsys):
-        req = 'show running nat-policy'
-        logging.info(req)
-
-        resp = self.dev.op(req, xml=True)
-        logging.info(resp + b'\n')
-
-        return xmltodict.parse(resp)['response']['result']
-
 class PanCli(object):
 
     def __init__(self, device_info):
