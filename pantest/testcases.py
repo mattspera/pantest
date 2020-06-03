@@ -608,6 +608,10 @@ class GeneralTestCases(object):
         running_config_setcmds_list = running_config_setcmds.splitlines()
         self.cli.exit_config_mode()
 
+        # If test is a string (will be if input variable sourced from Ansible module), convert to a list
+        if isinstance(test, str):
+            test = ast.literal_eval(test)
+
         output = compare_list(test, running_config_setcmds_list)
 
         if not output['added'] and not output['removed']:
