@@ -57,7 +57,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'dg-shared-policy-sync-change' : output
+                'dg-shared_policy_sync_change' : output
             }
             return result
 
@@ -100,7 +100,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'template-sync-change' : output
+                'template_sync_change' : output
             }
             return result
 
@@ -130,7 +130,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'devices-connected-change' : output
+                'devices_connected_change' : output
             }
             return result
 
@@ -160,7 +160,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'log-collectors-connected-change' : output
+                'log_collectors_connected_change' : output
             }
             return result
 
@@ -190,7 +190,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'wildfire-appliances-connected-change' : output
+                'wildfire_appliances_connected_change' : output
             }
             return result
 
@@ -224,7 +224,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'log-collector-config-sync-change' : output
+                'log-collector_config_sync_change' : output
             }
             return result
 
@@ -258,7 +258,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'wf-appliance-config-sync-change' : output
+                'wf_appliance_config_sync_change' : output
             }
             return result
 
@@ -278,7 +278,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'ha-peer-status' : info['conn-status']
+                'ha_peer_status' : info['conn-status']
             }
             return result
 
@@ -292,8 +292,8 @@ class PanoramaTestCases(object):
         output = self.api.get_ha_status()
         info = output['local-info']
         compare_dict = {
-            'app-version' : info['app-compat'],
-            'av-version' : info['av-compat']
+            'app_version' : info['app-compat'],
+            'av_version' : info['av-compat']
         }
 
         compat_fail_dict = {}
@@ -308,7 +308,7 @@ class PanoramaTestCases(object):
             result['result'] = False
             result['info'] = {
                 'baseline' : test,
-                'ha-version-match-changes' :  compat_fail_dict
+                'ha_version_match_changes' :  compat_fail_dict
             }
             return result
 
@@ -327,7 +327,7 @@ class PanoramaTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'ha-config-sync-status' : output['running-sync']
+                'ha_config_sync_status' : output['running-sync']
             }
             return result
 
@@ -415,7 +415,7 @@ class FirewallTestCases(object):
 
         output = compare_dict(test, tvt_connectivity)
 
-        if not output['added'] and not output['removed'] and not output['changed [baseline, tvt]']:
+        if not output['added'] and not output['removed'] and not output['changed']:
             result['result'] = True
             return result
         else:
@@ -455,8 +455,8 @@ class FirewallTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'ha2-link-status' : info['conn-ha2']['conn-status'],
-                'ha1-link-status' : info['conn-ha1']['conn-status']
+                'ha2_link_status' : info['conn-ha2']['conn-status'],
+                'ha1_link_status' : info['conn-ha1']['conn-status']
             }
             return result
 
@@ -489,7 +489,7 @@ class FirewallTestCases(object):
             result['result'] = False
             result['info'] = {
                 'baseline' : test,
-                'ha-version-match-changes' :  compat_fail_dict
+                'ha_version_match_changes' :  compat_fail_dict
             }
             return result
 
@@ -508,7 +508,7 @@ class FirewallTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'ha-config-sync-status' : output['group']['running-sync']
+                'ha_config_sync_status' : output['group']['running-sync']
             }
             return result
 
@@ -535,7 +535,7 @@ class FirewallTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'interfaces-down' : int_fail_list
+                'interfaces_down' : int_fail_list
             }
             return result
 
@@ -561,8 +561,8 @@ class FirewallTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'baseline-seq-no' : test,
-                'tvt-seq-no' : log_fwd_seq
+                'baseline_seq_no' : test,
+                'tvt_seq_no' : log_fwd_seq
             }
             return result 
 
@@ -590,8 +590,8 @@ class GeneralTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'current-sw-version' : output['system']['sw-version'],
-                'target-sw-version' : test
+                'current_sw_version' : output['system']['sw-version'],
+                'target_sw_version' : test
             }
             return result
 
@@ -620,7 +620,7 @@ class GeneralTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'config-changes' : output
+                'config_changes' : output
             }
             return result
 
@@ -655,7 +655,7 @@ class GeneralTestCases(object):
         else:
             result['result'] = False
             result['info'] = {
-                'current-ntp-sync' : output['synched'],
-                'baseline-ntp-sync' : test
+                'current_ntp_sync' : output['synched'],
+                'baseline_ntp_sync' : test
             }
             return result

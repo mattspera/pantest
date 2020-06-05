@@ -13,7 +13,7 @@ def compare_dict(d1, d2):
     diff = {
         'added' : added, # this k, v pair denotes keys found in d2 but not in d1
         'removed' : removed, # this k, v pair denotes keys found in d1 but not in d2
-        'changed [baseline, tvt]' : changed # this k, v pair denotes keys found in both d1 and d2 with a modified value
+        'changed' : changed # this k, v pair denotes keys found in both d1 and d2 with a modified value [baseline, tvt]
     }
 
     return diff
