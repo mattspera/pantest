@@ -37,17 +37,17 @@ class TestUtils(unittest.TestCase):
         output = compare_dict(self.sample_dict_1, self.sample_dict_3)
         self.assertTrue(output['added'])
         self.assertFalse(output['removed'])
-        self.assertFalse(output['changed [baseline, tvt]'])
+        self.assertFalse(output['changed'])
 
     def test_compare_dict_removed(self):
         output = compare_dict(self.sample_dict_3, self.sample_dict_1)
         self.assertTrue(output['removed'])
         self.assertFalse(output['added'])
-        self.assertFalse(output['changed [baseline, tvt]'])
+        self.assertFalse(output['changed'])
 
     def test_compare_dict_changed(self):
         output = compare_dict(self.sample_dict_2, self.sample_dict_3)
-        self.assertTrue(output['changed [baseline, tvt]'])
+        self.assertTrue(output['changed'])
         self.assertFalse(output['added'])
         self.assertFalse(output['removed'])
 

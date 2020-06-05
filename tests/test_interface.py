@@ -1,4 +1,5 @@
 import os
+import sys
 import yaml
 import unittest
 
@@ -11,6 +12,11 @@ def setUpModule():
     global test_vars
     with open(file_path) as file_obj:
         test_vars = yaml.safe_load(file_obj)
+
+    try:
+        assert all(os.environ[env] for env in ['TEST_USERNAME', 'TEST_PASSWORD', 'TEST_IP'])
+    except KeyError as exc:
+        sys.exit(f"ERROR: Missing env variable: {exc}")
 
     global device_info
     device_info = {

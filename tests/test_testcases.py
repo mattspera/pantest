@@ -1,4 +1,5 @@
 import os
+import sys
 import yaml
 import unittest
 
@@ -11,6 +12,11 @@ def setUpModule():
     global test_vars
     with open(file_path) as file_obj:
         test_vars = yaml.safe_load(file_obj)
+
+    try:
+        assert all(os.environ[env] for env in ['TEST_USERNAME', 'TEST_PASSWORD', 'TEST_IP'])
+    except KeyError as exc:
+        sys.exit(f"ERROR: Missing env variable: {exc}")
 
     global device_info
     device_info = {
@@ -40,9 +46,9 @@ class TestFirewallTestCases(unittest.TestCase):
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
         self.assertEqual(test_vars['removed_nexthop'], next(iter(output_2['info']['removed'])))
-        self.assertIn(test_vars['changed_nexthop'], output_2['info']['changed [baseline, tvt]'])
-        self.assertEqual(test_vars['packet_loss'], output_2['info']['changed [baseline, tvt]'][test_vars['changed_nexthop']][1])
-        self.assertEqual(test_vars['not_packet_loss'], output_2['info']['changed [baseline, tvt]'][test_vars['changed_nexthop']][0])
+        self.assertIn(test_vars['changed_nexthop'], output_2['info']['changed'])
+        self.assertEqual(test_vars['packet_loss'], output_2['info']['changed'][test_vars['changed_nexthop']][1])
+        self.assertEqual(test_vars['not_packet_loss'], output_2['info']['changed'][test_vars['changed_nexthop']][0])
 
     def test_t_panorama_connected(self):
         pass
@@ -52,8 +58,8 @@ class TestFirewallTestCases(unittest.TestCase):
         output_2 = self.fw_tester.t_ha_peer_up(test_vars['not_ha_peer_up_status'])
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
-        self.assertEqual(test_vars['ha1_status'], output_2['info']['ha1-link-status'])
-        self.assertEqual(test_vars['ha2_status'], output_2['info']['ha2-link-status'])   
+        self.assertEqual(test_vars['ha1_status'], output_2['info']['ha1_link_status'])
+        self.assertEqual(test_vars['ha2_status'], output_2['info']['ha2_link_status'])   
 
     def test_t_ha_match(self):
         pass
@@ -63,14 +69,14 @@ class TestFirewallTestCases(unittest.TestCase):
         output_2 = self.fw_tester.t_ha_config_synced(test_vars['not_ha_config_sync_status'])
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
-        self.assertEqual(test_vars['ha_config_sync_status'], output_2['info']['ha-config-sync-status'])
+        self.assertEqual(test_vars['ha_config_sync_status'], output_2['info']['ha_config_sync_status'])
 
     def test_t_interfaces_up(self):
         output_1 = self.fw_tester.t_interfaces_up(test_vars['interfaces_up'])
         output_2 = self.fw_tester.t_interfaces_up(test_vars['not_interfaces_up'])
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
-        self.assertEqual(output_2['info']['interfaces-down'][0], test_vars['not_interfaces_up'][2])
+        self.assertEqual(output_2['info']['interfaces_down'][0], test_vars['not_interfaces_up'][2])
 
     def test_t_traffic_log_forward(self):
         pass
@@ -86,8 +92,8 @@ class TestGeneralTestCases(unittest.TestCase):
         output_2 = self.gen_tester.t_system_version(test_vars['not_sys_version'])
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
-        self.assertEqual(output_2['info']['current-sw-version'], test_vars['sys_version'])
-        self.assertEqual(output_2['info']['target-sw-version'], test_vars['not_sys_version'])
+        self.assertEqual(output_2['info']['current_sw_version'], test_vars['sys_version'])
+        self.assertEqual(output_2['info']['target_sw_version'], test_vars['not_sys_version'])
 
     def test_t_config_diff(self):
         working_dir = os.path.dirname(__file__)
@@ -106,8 +112,8 @@ class TestGeneralTestCases(unittest.TestCase):
 
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
-        self.assertListEqual(test_vars['removed_config'], output_2['info']['config-changes']['removed'])
-        self.assertListEqual(test_vars['added_config'], output_2['info']['config-changes']['added'])          
+        self.assertListEqual(test_vars['removed_config'], output_2['info']['config_changes']['removed'])
+        self.assertListEqual(test_vars['added_config'], output_2['info']['config_changes']['added'])          
 
 
     def test_t_ha_enabled(self):
