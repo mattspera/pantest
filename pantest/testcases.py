@@ -423,6 +423,33 @@ class FirewallTestCases(object):
             result['info'] = output
             return result
 
+    def t_routes(self, test):
+        test_name = 't_routes'
+        logging.info('Test case: {}'.format(test_name))
+
+        result = {}
+        result['name'] = test_name
+
+        res = self.api.get_route_table()
+        if 'entry' in res:
+            tvt_routes = res['entry']
+        else:
+            tvt_routes = []
+
+        # If test is a string (will be if input variable sourced from Ansible module), convert to a list
+        if isinstance(test, str):
+            test = ast.literal_eval(test)
+
+        output = compare_list_of_dicts(test, tvt_routes)
+
+        if not output['added'] and not output['removed']:
+            result['result'] = True
+            return result
+        else:
+            result['result'] = False
+            result['info'] = output
+            return result
+
     def t_panorama_connected(self, test):
         test_name = 't_panorama_connected'
         logging.info('Test case: {}'.format(test_name))

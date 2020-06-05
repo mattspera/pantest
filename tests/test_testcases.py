@@ -50,6 +50,13 @@ class TestFirewallTestCases(unittest.TestCase):
         self.assertEqual(test_vars['packet_loss'], output_2['info']['changed'][test_vars['changed_nexthop']][1])
         self.assertEqual(test_vars['not_packet_loss'], output_2['info']['changed'][test_vars['changed_nexthop']][0])
 
+    def test_t_routes(self):
+        output_1 = self.fw_tester.t_routes(test_vars['route_table'])
+        output_2 = self.fw_tester.t_routes(test_vars['not_route_table'])
+        self.assertTrue(output_1['result'])
+        self.assertFalse(output_2['result'])
+        self.assertEqual(output_2['info']['added'][0], test_vars['route_table'][0]) 
+
     def test_t_panorama_connected(self):
         pass
 

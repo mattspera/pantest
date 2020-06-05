@@ -33,6 +33,17 @@ class TestUtils(unittest.TestCase):
             'item2'
         ]
 
+        self.sample_list_dicts_1 = [
+            self.sample_dict_1,
+            self.sample_dict_2
+        ]
+
+        self.sample_list_dicts_2 = [
+            self.sample_dict_1,
+            self.sample_dict_2,
+            self.sample_dict_3
+        ]
+
     def test_compare_dict_added(self):
         output = compare_dict(self.sample_dict_1, self.sample_dict_3)
         self.assertTrue(output['added'])
@@ -58,6 +69,16 @@ class TestUtils(unittest.TestCase):
 
     def test_compare_list_removed(self):
         output = compare_list(self.sample_list_2, self.sample_list_1)
+        self.assertTrue(output['removed'])
+        self.assertFalse(output['added'])
+
+    def test_compare_list_dicts_added(self):
+        output = compare_list_of_dicts(self.sample_list_dicts_1, self.sample_list_dicts_2)
+        self.assertTrue(output['added'])
+        self.assertFalse(output['removed'])
+
+    def test_compare_list_dicts_removed(self):
+        output = compare_list_of_dicts(self.sample_list_dicts_2, self.sample_list_dicts_1)
         self.assertTrue(output['removed'])
         self.assertFalse(output['added'])
 

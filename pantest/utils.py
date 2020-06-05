@@ -29,6 +29,22 @@ def compare_list(l1, l2):
 
     return diff
 
+def compare_list_of_dicts(l1, l2):
+    diff = {
+        'added' : [],
+        'removed' : []
+    }
+
+    for item in l2:
+        if item not in l1:
+            diff['added'].append(item)
+
+    for item in l1:
+        if item not in l2:
+            diff['removed'].append(item)
+
+    return diff
+
 def find_seq_number(log_type, s):
     line_list = s.splitlines()
 
