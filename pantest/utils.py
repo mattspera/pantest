@@ -1,4 +1,9 @@
-# Utility Functions
+from collections.abc import Mapping
+
+def rec_key_replace(obj):
+    if isinstance(obj, Mapping):
+        return {key.replace('-', '_'): rec_key_replace(val) for key, val in obj.items()}
+    return obj
 
 def compare_dict(d1, d2):
     d1_keys = set(d1.keys())

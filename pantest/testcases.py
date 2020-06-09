@@ -440,7 +440,18 @@ class FirewallTestCases(object):
         if isinstance(test, str):
             test = ast.literal_eval(test)
 
-        output = compare_list_of_dicts(test, tvt_routes)
+        # Replace all instances of a '-' in dict keys to a '_'
+        test_proper = []
+        tvt_routes_proper = []
+
+        for entry in test:
+            entry_proper = rec_key_replace(entry)
+            test_proper.append(entry_proper)
+        for entry in tvt_routes:
+            entry_proper = rec_key_replace(entry)
+            tvt_routes_proper.append(entry_proper)
+
+        output = compare_list_of_dicts(test_proper, tvt_routes_proper)
 
         if not output['added'] and not output['removed']:
             result['result'] = True

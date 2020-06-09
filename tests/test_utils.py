@@ -22,6 +22,18 @@ class TestUtils(unittest.TestCase):
             'key3' : 'val3'            
         }
 
+        self.sample_dict_4 = {
+            'key-1' : 'val1',
+            'key-2' : 'val2',
+            'key3' : 'val3'
+        }
+
+        self.sample_dict_5 = {
+            'key_1' : 'val1',
+            'key_2' : 'val2',
+            'key3' : 'val3'
+        }
+
         self.sample_list_1 = [
             'item1',
             'item2'
@@ -81,6 +93,10 @@ class TestUtils(unittest.TestCase):
         output = compare_list_of_dicts(self.sample_list_dicts_2, self.sample_list_dicts_1)
         self.assertTrue(output['removed'])
         self.assertFalse(output['added'])
+
+    def test_rec_key_replace(self):
+        output = rec_key_replace(self.sample_dict_4)
+        self.assertDictEqual(output, self.sample_dict_5)
 
     def test_find_seq_number(self):
         pass

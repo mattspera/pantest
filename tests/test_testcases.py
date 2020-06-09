@@ -55,7 +55,7 @@ class TestFirewallTestCases(unittest.TestCase):
         output_2 = self.fw_tester.t_routes(test_vars['not_route_table'])
         self.assertTrue(output_1['result'])
         self.assertFalse(output_2['result'])
-        self.assertEqual(output_2['info']['added'][0], test_vars['route_table'][0]) 
+        self.assertEqual(output_2['info']['added'][0], test_vars['route_table_proper'][0]) 
 
     def test_t_panorama_connected(self):
         pass
